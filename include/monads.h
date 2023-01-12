@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include "functor.h"
 
 #pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
 
