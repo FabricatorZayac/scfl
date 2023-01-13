@@ -29,7 +29,7 @@
 // definition for FOO
 // #define FOO(...) VFUNC(FOO, __VA_ARGS__)
 
-#define CALL(callable, ...) _VFUNC(CALL, __NARG__(__VA_ARGS__)) ( __VA_ARGS__, callable)
+#define CALL(callable, ...) _VFUNC(CALL, __NARG__(__VA_ARGS__)) (__VA_ARGS__, callable)
 
 #define _CALL(x1, callable) callable.function(callable, x1)
 
@@ -41,5 +41,17 @@
 #define _CALL_6(x6, ...) _CALL(x6, _CALL_5(__VA_ARGS__))
 #define _CALL_7(x7, ...) _CALL(x7, _CALL_6(__VA_ARGS__))
 #define _CALL_8(x8, ...) _CALL(x8, _CALL_7(__VA_ARGS__))
+
+#define DefineCallable(T)                       \
+typedef struct Callable_##T {                   \
+    struct Callable_##T (*function)();          \
+    T yield;                                    \
+} Callable_##T
+
+#define FUNCTION(T, name)\
+Callable_##T _##name(Callable_##T self, T x) {\
+     return (Callable_##T){
+
+#define FUNCTION_END(T, name) };} static const Callable_##T name = {.function = _##name};
 
 #endif // CALLABLE_H_
