@@ -6,10 +6,6 @@
 #include "functor.h"
 #include "callable.h"
 
-#pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
-
-#define New(T, o) memcpy(malloc(sizeof(T)), &o, sizeof(T))
-
 enum option {None, Some};
 #define DefineOption(T)                                                \
 typedef struct Option_##T {                                            \
