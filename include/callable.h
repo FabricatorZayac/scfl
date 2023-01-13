@@ -45,13 +45,21 @@
 #define DefineCallable(T)                       \
 typedef struct Callable_##T {                   \
     struct Callable_##T (*function)();          \
+    short argc;                                 \
     T yield;                                    \
 } Callable_##T
 
-#define FUNCTION(T, name)\
-Callable_##T _##name(Callable_##T self, T x) {\
-     return (Callable_##T){
+#define FUNCTION(Ret_T, name, Arg_T)                            \
+Callable_##Ret_T _##name(Callable_##Ret_T self, Arg_T arg) {    \
+    return (Callable_##Ret_T){                                  \
+        .argc = ++self.argc,                                    \
+        .function = _##name,                                    \
+        .yield =
 
-#define FUNCTION_END(T, name) };} static const Callable_##T name = {.function = _##name};
+#define FUNCTION_END(Ret_T, name) };}           \
+static const Callable_##Ret_T name = {          \
+    .function = _##name,                        \
+    .argc = 0                                   \
+};
 
 #endif // CALLABLE_H_
